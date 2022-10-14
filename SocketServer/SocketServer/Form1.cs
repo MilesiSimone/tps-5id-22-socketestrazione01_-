@@ -55,12 +55,14 @@ namespace SocketServer
                 // Start listening for connections.  
                 while (true)
                 {
+                    this.Refresh();
                     label_connessione.Text = ("ASPETTANDO UNA CONNESSIONE...");
                     // Program is suspended while waiting for an incoming connection.  
-
+                    this.Refresh();
                     Socket handler = listener.Accept();
                     data = null;
                     label_connessione.Text = ("Connesso...");
+                    this.Refresh();
                     // An incoming connection needs to be processed.  
                     while (true)
                     {
