@@ -10,60 +10,55 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.CodeDom.Compiler;
+using System.Threading;
 
 namespace SocketServer
 {
     public partial class Form1 : Form
     {
+        Thread t1;
+        public static string data = null;
+
         public Form1()
         {
+            CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
         }
 
         private void button_connetti_Click(object sender, EventArgs e)
         {
-            StartListening();
+            t1 = new Thread(StartListening);
+            t1.Start();
         }
-
-        public static string data = null;
 
         public void StartListening()
         {
-            
-            // Data buffer for incoming data.  
             byte[] bytes = new Byte[1024];
             int i = 0;
 
-            // Establish the local endpoint for the socket.  
-            // Dns.GetHostName returns the name of the   
-            // host running the application.  
             IPAddress ipAddress = System.Net.IPAddress.Parse("127.0.0.1");
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 5000);
 
-            // Create a TCP/IP socket.  
             Socket listener = new Socket(ipAddress.AddressFamily,
                 SocketType.Stream, ProtocolType.Tcp);
 
-            // Bind the socket to the local endpoint and   
-            // listen for incoming connections.  
             try
             {
 
                 listener.Bind(localEndPoint);
                 listener.Listen(10);
-
-                // Start listening for connections.  
+                
                 while (true)
                 {
-                    this.Refresh();
-                    label_connessione.Text = ("ASPETTANDO UNA CONNESSIONE...");
-                    // Program is suspended while waiting for an incoming connection.  
-                    this.Refresh();
+                    label_connessione.Text = "ASPETTANDO UNA CONNESSIONE...";
+                    label_connessione.ForeColor = System.Drawing.Color.Black;
+                    Application.DoEvents();
                     Socket handler = listener.Accept();
                     data = null;
-                    label_connessione.Text = ("Connesso...");
-                    this.Refresh();
-                    // An incoming connection needs to be processed.  
+                    label_connessione.Text = "Connesso...";
+                    label_connessione.ForeColor = System.Drawing.Color.Green;
+                    Application.DoEvents();
+ 
                     while (true)
                     {
                         int bytesRec = handler.Receive(bytes);
@@ -75,14 +70,14 @@ namespace SocketServer
                     }
                     i = Genera_Numero();
 
-                    // Show the data on the console.  
-                    label_ric.Text = (data);
+                    data = data.Remove(data.Length - 5);
 
-                    label_num.Text = (i.ToString());
+                    label_ric.Text = data;
 
-                    label_invio.Text = ("Numero Inviato al client.");
+                    label_num.Text = i.ToString();
 
-                    // Echo the data back to the client.  
+                    label_invio.Text = "Numero Inviato al client.";
+ 
                     byte[] msg = Encoding.ASCII.GetBytes(i.ToString());
 
                     handler.Send(msg);
@@ -97,7 +92,6 @@ namespace SocketServer
             }
 
             MessageBox.Show("Press to continue...");
-
         }
 
         public int Genera_Numero()

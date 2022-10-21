@@ -65,9 +65,10 @@
             // 
             this.label_connessione.AutoSize = true;
             this.label_connessione.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_connessione.ForeColor = System.Drawing.Color.Red;
             this.label_connessione.Location = new System.Drawing.Point(313, 145);
             this.label_connessione.Name = "label_connessione";
-            this.label_connessione.Size = new System.Drawing.Size(94, 16);
+            this.label_connessione.Size = new System.Drawing.Size(95, 16);
             this.label_connessione.TabIndex = 2;
             this.label_connessione.Text = "Non connesso";
             // 
@@ -123,7 +124,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(730, 394);
             this.Controls.Add(this.label_num);
             this.Controls.Add(this.label_ric);
             this.Controls.Add(this.label_invio);
@@ -133,7 +134,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_connetti);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Server";
             this.ResumeLayout(false);
             this.PerformLayout();
 
